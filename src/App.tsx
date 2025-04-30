@@ -1,9 +1,8 @@
-import React from 'react';
-import usePerceptron from './hooks/usePerceptron';
-import InputMatrix from './components/InputMatrix';
-import WeightPanel from './components/WeightPanel';
-import OutputGauge from './components/OutputGauge';
-import ControlBar from './components/ControlBar';
+import ControlBar from "./components/ControlBar";
+import InputMatrix from "./components/InputMatrix";
+import OutputGauge from "./components/OutputGauge";
+import WeightPanel from "./components/WeightPanel";
+import usePerceptron from "./hooks/usePerceptron";
 
 function App() {
   const {
@@ -28,23 +27,21 @@ function App() {
             Hand-Trained Perceptron Letter Recognizer
           </h1>
           <p className="text-center text-gray-400 mt-2 font-mono">
-            A single-layer perceptron for binary classification of 5×5 pixel patterns
+            A single-layer perceptron for binary classification of 5×5 pixel
+            patterns
           </p>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <main className="w-full px-4 py-8">
+        <div className="flex flex-row flex-wrap justify-center gap-12">
           {/* Left column: Input Matrix */}
-          <div className="lg:col-span-1">
-            <InputMatrix
-              inputs={state.inputs}
-              toggleInput={toggleInput}
-            />
+          <div className="">
+            <InputMatrix inputs={state.inputs} toggleInput={toggleInput} />
           </div>
 
           {/* Middle column: Weight Panel */}
-          <div className="lg:col-span-3">
+          <div className="">
             <WeightPanel
               weights={state.weights}
               bias={state.bias}
@@ -58,11 +55,8 @@ function App() {
           </div>
 
           {/* Right column: Output Gauge */}
-          <div className="lg:col-span-1">
-            <OutputGauge
-              net={state.net}
-              output={state.output}
-            />
+          <div className="">
+            <OutputGauge net={state.net} output={state.output} />
           </div>
         </div>
 
@@ -93,7 +87,9 @@ function App() {
                 <li>Set your target output (YES=1 or NO=0)</li>
                 <li>Adjust weights by rotating knobs</li>
                 <li>Watch the output gauge respond in real-time</li>
-                <li>Green/red halos around knobs suggest which weights to adjust</li>
+                <li>
+                  Green/red halos around knobs suggest which weights to adjust
+                </li>
               </ol>
             </div>
             <div>
@@ -108,11 +104,14 @@ function App() {
             </div>
           </div>
           <div className="mt-6 border-t border-gray-700 pt-4">
-            <h3 className="font-mono text-lg mb-2">Understanding Perceptrons</h3>
+            <h3 className="font-mono text-lg mb-2">
+              Understanding Perceptrons
+            </h3>
             <p className="text-gray-300">
-              The perceptron calculates a weighted sum of inputs (NET = Σ w_i × x_i + bias).
-              If NET {'>'} 0, output is YES (1); otherwise, it's NO (0).
-              Training adjusts weights to minimize error: w_new = w_old + lr × (target - output) × input.
+              The perceptron calculates a weighted sum of inputs (NET = Σ w_i ×
+              x_i + bias). If NET {">"} 0, output is YES (1); otherwise, it's NO
+              (0). Training adjusts weights to minimize error: w_new = w_old +
+              lr × (target - output) × input.
             </p>
           </div>
         </div>

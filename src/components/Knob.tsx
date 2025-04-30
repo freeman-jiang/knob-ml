@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 interface KnobProps {
   value: number;
@@ -6,7 +6,7 @@ interface KnobProps {
   max: number;
   onChange: (value: number) => void;
   size?: number;
-  hint?: 'increase' | 'decrease' | 'correct';
+  hint?: "increase" | "decrease" | "correct";
   label?: string;
   disabled?: boolean;
 }
@@ -17,7 +17,7 @@ const Knob: React.FC<KnobProps> = ({
   max,
   onChange,
   size = 60,
-  hint = 'correct',
+  hint = "correct",
   label,
   disabled = false,
 }) => {
@@ -37,7 +37,7 @@ const Knob: React.FC<KnobProps> = ({
   // Handle mouse/touch down
   const handleDragStart = (clientY: number) => {
     if (disabled) return;
-    
+
     setIsDragging(true);
     startYRef.current = clientY;
     startValueRef.current = value;
@@ -46,15 +46,18 @@ const Knob: React.FC<KnobProps> = ({
   // Handle mouse/touch move
   const handleDrag = (clientY: number) => {
     if (!isDragging || startYRef.current === null) return;
-    
+
     const sensitivity = 0.05; // Reduced sensitivity for finer control
     const deltaY = startYRef.current - clientY;
     const deltaValue = deltaY * sensitivity;
-    
+
     // Calculate new value based on drag distance
     const range = max - min;
-    const newValue = Math.max(min, Math.min(max, startValueRef.current + deltaValue * range / 100));
-    
+    const newValue = Math.max(
+      min,
+      Math.min(max, startValueRef.current + (deltaValue * range) / 100)
+    );
+
     onChange(newValue);
   };
 
@@ -74,25 +77,25 @@ const Knob: React.FC<KnobProps> = ({
     const handleTouchEnd = () => handleDragEnd();
 
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleTouchEnd);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isDragging]);
 
   // Get hint color
   const getHintColor = () => {
-    if (hint === 'increase') return 'ring-green-500';
-    if (hint === 'decrease') return 'ring-red-500';
-    return '';
+    if (hint === "increase") return "ring-green-500";
+    if (hint === "decrease") return "ring-red-500";
+    return "";
   };
 
   return (
@@ -100,31 +103,33 @@ const Knob: React.FC<KnobProps> = ({
       <div
         ref={knobRef}
         className={`relative rounded-full bg-gray-800 border-2 border-gray-700 shadow-lg cursor-grab
-          ${isDragging ? 'cursor-grabbing' : ''}
-          ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-          ${hint !== 'correct' ? `ring-2 ${getHintColor()}` : ''}
+          ${isDragging ? "cursor-grabbing" : ""}
+          ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+          ${hint !== "correct" ? `ring-2 ${getHintColor()}` : ""}
         `}
         style={{
           width: `${size}px`,
           height: `${size}px`,
         }}
         onMouseDown={(e) => handleDragStart(e.clientY)}
-        onTouchStart={(e) => e.touches[0] && handleDragStart(e.touches[0].clientY)}
+        onTouchStart={(e) =>
+          e.touches[0] && handleDragStart(e.touches[0].clientY)
+        }
       >
         {/* Knob indicator line */}
         <div
           className="absolute w-0.5 bg-white rounded-full transform -translate-x-1/2"
           style={{
             height: `${size * 0.4}px`,
-            left: '50%',
-            bottom: '50%',
-            transformOrigin: 'bottom center',
+            left: "50%",
+            bottom: "50%",
+            transformOrigin: "bottom center",
             transform: `translateX(-50%) rotate(${getRotationAngle()}deg)`,
-            transition: isDragging ? 'none' : 'transform 0.1s ease-out',
+            transition: isDragging ? "none" : "transform 0.1s ease-out",
           }}
         />
       </div>
-      
+
       {/* Value indicator */}
       <div className="mt-1 font-mono text-xs text-center w-full">
         {label && <div className="text-gray-400">{label}</div>}

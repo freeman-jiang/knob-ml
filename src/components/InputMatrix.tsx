@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface InputMatrixProps {
   inputs: number[];
@@ -7,14 +7,16 @@ interface InputMatrixProps {
 
 const InputMatrix: React.FC<InputMatrixProps> = ({ inputs, toggleInput }) => {
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="text-xl font-mono mb-2 uppercase tracking-wider">Input Matrix</h2>
-      <div className="grid grid-cols-5 gap-2 bg-gray-900 p-4 rounded-md shadow-inner">
+    <div className="w-96">
+      <h2 className="text-xl font-mono mb-2 uppercase tracking-wider self-center">
+        Input Matrix
+      </h2>
+      <div className="grid grid-cols-5 gap-2 bg-gray-900 p-4 rounded-md shadow-inner self-center">
         {inputs.map((input, index) => (
           <button
             key={index}
-            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-sm transition-all transform ${
-              input ? 'bg-green-500 shadow-lg scale-105' : 'bg-gray-800'
+            className={`w-16 h-16 rounded-sm transition-all transform ${
+              input ? "bg-green-500 shadow-lg scale-105" : "bg-gray-800"
             }`}
             onClick={() => toggleInput(index)}
             aria-label={`Toggle pixel ${index}`}

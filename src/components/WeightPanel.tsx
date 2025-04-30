@@ -43,6 +43,7 @@ const WeightPanel: React.FC<WeightPanelProps> = ({
                 hint={weightHints[index]}
                 disabled={training}
                 label={`w${index}`}
+                activeInput={inputs[index] === 1}
               />
               <div
                 className={`w-2 h-2 rounded-full mt-1 ${

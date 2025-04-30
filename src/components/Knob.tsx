@@ -9,6 +9,7 @@ interface KnobProps {
   hint?: "increase" | "decrease" | "correct";
   label?: string;
   disabled?: boolean;
+  activeInput?: boolean;
 }
 
 const Knob: React.FC<KnobProps> = ({
@@ -20,6 +21,7 @@ const Knob: React.FC<KnobProps> = ({
   hint = "correct",
   label,
   disabled = false,
+  activeInput = false,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const knobRef = useRef<HTMLDivElement>(null);
@@ -102,10 +104,13 @@ const Knob: React.FC<KnobProps> = ({
     <div className="flex flex-col items-center select-none">
       <div
         ref={knobRef}
-        className={`relative rounded-full bg-gray-800 border-2 border-gray-700 shadow-lg cursor-grab
+        className={`relative rounded-full bg-gray-800 border-2 ${
+          activeInput ? "border-green-500" : "border-gray-700"
+        } shadow-lg cursor-grab
           ${isDragging ? "cursor-grabbing" : ""}
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
           ${hint !== "correct" ? `ring-2 ${getHintColor()}` : ""}
+          ${activeInput ? "glow-green-500" : ""}
         `}
         style={{
           width: `${size}px`,

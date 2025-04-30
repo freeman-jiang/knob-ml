@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { cn } from "../lib/utils";
 
 interface KnobProps {
   value: number;
@@ -102,16 +103,22 @@ const Knob: React.FC<KnobProps> = ({
 
   return (
     <div className="flex flex-col items-center select-none">
+      {/* Label above the knob */}
+      {label && (
+        <div className="mb-1 text-xs text-gray-400 font-mono">{label}</div>
+      )}
+
       <div
         ref={knobRef}
-        className={`relative rounded-full bg-gray-800 border-2 ${
-          activeInput ? "border-green-500" : "border-gray-700"
-        } shadow-lg cursor-grab
-          ${isDragging ? "cursor-grabbing" : ""}
-          ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-          ${hint !== "correct" ? `ring-2 ${getHintColor()}` : ""}
-          ${activeInput ? "glow-green-500" : ""}
-        `}
+        className={cn(
+          "relative rounded-full bg-gray-800 border-2 shadow-lg cursor-grab",
+          "flex items-center justify-center", // Added for centering content if needed
+          activeInput ? "border-green-500" : "border-gray-700",
+          isDragging && "cursor-grabbing",
+          disabled && "opacity-50 cursor-not-allowed",
+          hint !== "correct" && `ring-2 ${getHintColor()}`,
+          activeInput && "glow-green-500"
+        )}
         style={{
           width: `${size}px`,
           height: `${size}px`,
@@ -131,14 +138,17 @@ const Knob: React.FC<KnobProps> = ({
             transformOrigin: "bottom center",
             transform: `translateX(-50%) rotate(${getRotationAngle()}deg)`,
             transition: isDragging ? "none" : "transform 0.1s ease-out",
+            zIndex: 10, // Ensure indicator is above value
           }}
         />
-      </div>
 
-      {/* Value indicator */}
-      <div className="mt-1 font-mono text-xs text-center w-full">
-        {label && <div className="text-gray-400">{label}</div>}
-        <div className="text-white">{value.toFixed(1)}</div>
+        {/* Value indicator - Now absolutely positioned inside */}
+        <div
+          className="absolute bottom-1 left-1/2 transform -translate-x-1/2 font-mono text-[0.60rem] text-white/60"
+          style={{ zIndex: 5 }} // Ensure value is below indicator
+        >
+          {value.toFixed(1)}
+        </div>
       </div>
     </div>
   );

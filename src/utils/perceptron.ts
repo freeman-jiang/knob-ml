@@ -17,25 +17,10 @@ export const applyActivation = (net: number): 0 | 1 => {
   return net > 0 ? 1 : 0;
 };
 
-// Calculate if a weight needs adjustment based on the perceptron learning rule
-export const getWeightHint = (
-  input: number,
-  weight: number,
-  target: 0 | 1,
-  output: 0 | 1
-): "increase" | "decrease" | "correct" => {
-  if (target === output) return "correct";
-
-  // Only adjust weights for active inputs
-  if (input === 0) return "correct";
-
-  return target > output ? "increase" : "decrease";
-};
-
 // Update weights using the perceptron learning rule
 export const updateWeights = (
   state: PerceptronState,
-  learningRate: number = 0.1
+  learningRate: number = 0.01
 ): [number[], number] => {
   const { inputs, weights, bias, target, output } = state;
 
@@ -63,13 +48,4 @@ export const initializeWeights = (size: number): number[] => {
   return Array(size)
     .fill(0)
     .map(() => Math.random() * 2 - 1);
-};
-
-// Clamp weight values to prevent extreme values
-export const clampWeight = (
-  value: number,
-  min: number = -10,
-  max: number = 10
-): number => {
-  return Math.max(min, Math.min(max, value));
 };

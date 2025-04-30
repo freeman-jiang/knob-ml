@@ -4,7 +4,6 @@ import { letterPatterns } from "../utils/letterPatterns";
 import {
   applyActivation,
   calculateNet,
-  clampWeight,
   updateWeights,
 } from "../utils/perceptron";
 
@@ -41,7 +40,7 @@ const usePerceptron = () => {
   const updateWeight = useCallback((index: number, value: number) => {
     setState((prev) => {
       const newWeights = [...prev.weights];
-      newWeights[index] = clampWeight(value);
+      newWeights[index] = value;
 
       // Recalculate net and output
       const newNet = calculateNet(prev.inputs, newWeights, prev.bias);
@@ -59,7 +58,7 @@ const usePerceptron = () => {
   // Update bias manually
   const updateBias = useCallback((value: number) => {
     setState((prev) => {
-      const newBias = clampWeight(value);
+      const newBias = value;
 
       // Recalculate net and output
       const newNet = calculateNet(prev.inputs, prev.weights, newBias);
@@ -152,20 +151,16 @@ const usePerceptron = () => {
       }
 
       // Use a smaller learning rate for more gradual updates
-      const [newWeights, newBias] = updateWeights(prev, 0.1);
-
-      // Apply weight clamping
-      const clampedWeights = newWeights.map((w) => clampWeight(w));
-      const clampedBias = clampWeight(newBias);
+      const [newWeights, newBias] = updateWeights(prev);
 
       // Recalculate net and output
-      const newNet = calculateNet(prev.inputs, clampedWeights, clampedBias);
+      const newNet = calculateNet(prev.inputs, newWeights, newBias);
       const newOutput = applyActivation(newNet);
 
       return {
         ...prev,
-        weights: clampedWeights,
-        bias: clampedBias,
+        weights: newWeights,
+        bias: newBias,
         net: newNet,
         output: newOutput,
       };

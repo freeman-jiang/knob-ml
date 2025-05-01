@@ -1,5 +1,6 @@
 import React from "react";
 import { letterPatterns } from "../utils/letterPatterns";
+import MiniLetterGrid from "./MiniLetterGrid";
 
 interface ControlBarProps {
   onClear: () => void;
@@ -79,19 +80,14 @@ const ControlBar: React.FC<ControlBarProps> = ({
         {/* Alphabet selector */}
         <div className="mt-2">
           <div className="font-mono text-white mb-1">LETTER PRESETS:</div>
-          <div className="grid grid-cols-6 md:grid-cols-13 gap-1">
+          <div className="flex flex-wrap gap-4">
             {letters.map((letter) => (
-              <button
+              <MiniLetterGrid
                 key={letter}
-                className={`font-mono rounded ${
-                  currentLetter === letter
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-white hover:bg-gray-600"
-                }`}
+                pattern={letterPatterns[letter]}
+                isSelected={currentLetter === letter}
                 onClick={() => onLetterSelect(letter)}
-              >
-                {letter}
-              </button>
+              />
             ))}
           </div>
         </div>

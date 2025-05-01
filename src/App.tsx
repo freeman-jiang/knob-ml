@@ -1,4 +1,5 @@
 import ControlBar from "./components/ControlBar";
+import InfoPanel from "./components/InfoPanel";
 import InputMatrix from "./components/InputMatrix";
 import OutputGauge from "./components/OutputGauge";
 import WeightPanel from "./components/WeightPanel";
@@ -84,46 +85,7 @@ function App() {
         </div>
 
         {/* Information panel */}
-        <div className="mt-8 bg-gray-800 p-6 rounded-md shadow-lg">
-          <h2 className="text-xl font-mono mb-4 border-b border-gray-700 pb-2">
-            How to Use This Perceptron
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-mono text-lg mb-2">Manual Training</h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-300">
-                <li>Select a letter preset or draw a pattern</li>
-                <li>Set your target output (YES=1 or NO=0)</li>
-                <li>Adjust weights by rotating knobs</li>
-                <li>Watch the output gauge respond in real-time</li>
-                <li>
-                  Green/red halos around knobs suggest which weights to adjust
-                </li>
-              </ol>
-            </div>
-            <div>
-              <h3 className="font-mono text-lg mb-2">Step Training</h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-300">
-                <li>Select a letter pattern and set target</li>
-                <li>Click "TRAIN STEP" to perform one training step</li>
-                <li>Watch weights automatically adjust</li>
-                <li>Observe how each step affects the output</li>
-                <li>Repeat steps until output matches target</li>
-              </ol>
-            </div>
-          </div>
-          <div className="mt-6 border-t border-gray-700 pt-4">
-            <h3 className="font-mono text-lg mb-2">
-              Understanding Perceptrons
-            </h3>
-            <p className="text-gray-300">
-              The perceptron calculates a weighted sum of inputs (NET = Σ w_i ×
-              x_i + bias). If NET {">"} 0, output is YES (1); otherwise, it's NO
-              (0). Training adjusts weights to minimize error: w_new = w_old +
-              lr × (target - output) × input.
-            </p>
-          </div>
-        </div>
+        <InfoPanel />
       </main>
     </div>
   );

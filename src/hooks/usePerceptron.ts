@@ -11,6 +11,8 @@ import {
 const MATRIX_SIZE = 4;
 const INPUT_COUNT = MATRIX_SIZE * MATRIX_SIZE;
 
+type HintType = "increase" | "decrease" | "correct";
+
 const usePerceptron = () => {
   const [state, setState] = useState<PerceptronState>({
     inputs: Array(INPUT_COUNT).fill(-1),
@@ -22,6 +24,13 @@ const usePerceptron = () => {
     training: false,
     currentLetter: null,
   });
+
+  const [showHints, setShowHints] = useState(false);
+  // Store calculated hints in state
+  const [storedWeightHints, setStoredWeightHints] = useState<HintType[]>(
+    Array(INPUT_COUNT).fill("correct")
+  );
+  const [storedBiasHint, setStoredBiasHint] = useState<HintType>("correct");
 
   // Initialize perceptron state
   const initializePerceptron = useCallback(() => {
@@ -168,36 +177,56 @@ const usePerceptron = () => {
     });
   }, []);
 
-  // Get weight adjustment hints
-  const getWeightHints = useCallback(() => {
-    return state.weights.map((weight, index) => {
-      const input = state.inputs[index];
-
-      // Don't suggest changes if target equals output
-      if (state.target === state.output) return "correct";
-
-      // For bipolar inputs, both +1 and -1 contribute to learning
-      // For +1 inputs, increase weights if target > output, decrease if target < output
-      // For -1 inputs, do the opposite (decrease if target > output, increase if target < output)
+  // Calculate weight adjustment hints based directly on target value
+  const calculateWeightHints = useCallback(() => {
+    return state.inputs.map((input) => {
+      // For target=1, we want positive inputs to have positive weights (increase)
+      // and negative inputs to have negative weights (decrease)
+      // For target=0, we want the opposite
       if (input === 1) {
-        return state.target > state.output ? "increase" : "decrease";
+        // For +1 inputs: increase for target=1, decrease for target=0
+        return state.target === 1 ? "increase" : "decrease";
       } else {
-        // input === -1
-        return state.target > state.output ? "decrease" : "increase";
+        // For -1 inputs: decrease for target=1, increase for target=0
+        return state.target === 1 ? "decrease" : "increase";
       }
+    }) as HintType[];
+  }, [state.inputs, state.target]);
+
+  // Calculate bias adjustment hint based directly on target value
+  const calculateBiasHint = useCallback(() => {
+    // For target=1, we want to increase bias to make activation more likely
+    // For target=0, we want to decrease bias to make activation less likely
+    return state.target === 1 ? "increase" : "decrease";
+  }, [state.target]);
+
+  // Toggle hint visibility and calculate new hints when showing them
+  const toggleHints = useCallback(() => {
+    setShowHints((prev) => {
+      // If we're turning hints on, calculate and store new hints
+      if (!prev) {
+        setStoredWeightHints(calculateWeightHints());
+        setStoredBiasHint(calculateBiasHint());
+      }
+      return !prev;
     });
-  }, [state.weights, state.inputs, state.target, state.output]);
+  }, [calculateWeightHints, calculateBiasHint]);
 
-  // Get bias adjustment hint
+  // Get weight adjustment hints (use stored hints when showing)
+  const getWeightHints = useCallback(() => {
+    return showHints
+      ? storedWeightHints
+      : Array(state.weights.length).fill("correct" as const);
+  }, [showHints, storedWeightHints, state.weights.length]);
+
+  // Get bias adjustment hint (use stored hint when showing)
   const getBiasHint = useCallback(() => {
-    // Don't suggest changes if target equals output
-    if (state.target === state.output) return "correct";
-
-    return state.target > state.output ? "increase" : "decrease";
-  }, [state.target, state.output]);
+    return showHints ? storedBiasHint : ("correct" as const);
+  }, [showHints, storedBiasHint]);
 
   return {
     state,
+    showHints,
     initializePerceptron,
     updateWeight,
     updateBias,
@@ -206,6 +235,7 @@ const usePerceptron = () => {
     setLetterPattern,
     resetWeights,
     trainStep,
+    toggleHints,
     getWeightHints,
     getBiasHint,
   };

@@ -1,3 +1,4 @@
+import { Redo, Undo } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
 
@@ -35,6 +36,18 @@ const Knob: React.FC<KnobProps> = ({
     const percentage = (value - min) / range;
     // 135 degrees in each direction (270 total range)
     return -135 + percentage * 270;
+  };
+
+  // Get the color for the hint
+  const getHintColor = () => {
+    switch (hint) {
+      case "increase":
+        return "";
+      case "decrease":
+        return "";
+      default:
+        return "";
+    }
   };
 
   // Handle mouse/touch down
@@ -94,13 +107,6 @@ const Knob: React.FC<KnobProps> = ({
     };
   }, [isDragging]);
 
-  // Get hint color
-  const getHintColor = () => {
-    if (hint === "increase") return "ring-green-500";
-    if (hint === "decrease") return "ring-red-500";
-    return "";
-  };
-
   return (
     <div className="flex flex-col items-center select-none">
       {/* Label above the knob */}
@@ -128,6 +134,20 @@ const Knob: React.FC<KnobProps> = ({
           e.touches[0] && handleDragStart(e.touches[0].clientY)
         }
       >
+        {/* Direction hint icon */}
+        {hint !== "correct" && (
+          <div
+            className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-gray-900 rounded-full p-1"
+            style={{ zIndex: 20 }}
+          >
+            {hint === "increase" ? (
+              <Redo size={16} className="text-green-500" />
+            ) : (
+              <Undo size={16} className="text-red-500" />
+            )}
+          </div>
+        )}
+
         {/* Knob indicator line */}
         <div
           className="absolute w-0.5 bg-white rounded-full transform -translate-x-1/2"

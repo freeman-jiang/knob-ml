@@ -7,6 +7,8 @@ interface ControlBarProps {
   onReset: () => void;
   onLetterSelect: (letter: string) => void;
   onToggleTraining: () => void;
+  onToggleHints: () => void;
+  showHints: boolean;
   training: boolean;
   onSetTarget: (target: 0 | 1) => void;
   target: 0 | 1;
@@ -18,6 +20,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
   onReset,
   onLetterSelect,
   onToggleTraining,
+  onToggleHints,
+  showHints,
   onSetTarget,
   target,
   currentLetter,
@@ -47,6 +51,16 @@ const ControlBar: React.FC<ControlBarProps> = ({
             onClick={onToggleTraining}
           >
             TRAIN STEP
+          </button>
+          <button
+            className={`px-3 py-2 ${
+              showHints
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-gray-700 hover:bg-gray-600"
+            } text-white font-mono rounded shadow transition`}
+            onClick={onToggleHints}
+          >
+            {showHints ? "HIDE HINTS" : "SHOW HINTS"}
           </button>
         </div>
 

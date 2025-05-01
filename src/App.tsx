@@ -8,6 +8,7 @@ import usePerceptron from "./hooks/usePerceptron";
 function App() {
   const {
     state,
+    showHints,
     initializePerceptron,
     updateWeight,
     updateBias,
@@ -16,6 +17,7 @@ function App() {
     setLetterPattern,
     resetWeights,
     trainStep,
+    toggleHints,
     getWeightHints,
     getBiasHint,
   } = usePerceptron();
@@ -77,6 +79,8 @@ function App() {
             onReset={resetWeights}
             onLetterSelect={setLetterPattern}
             onToggleTraining={trainStep}
+            onToggleHints={toggleHints}
+            showHints={showHints}
             training={false}
             onSetTarget={setTarget}
             target={state.target}

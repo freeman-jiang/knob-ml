@@ -20,6 +20,11 @@ const InputMatrix: React.FC<InputMatrixProps> = ({ inputs, toggleInput }) => {
           />
         ))}
       </div>
+      <div className="mt-6 px-5 text-center text-gray-300 text-sm">
+        <p>
+          Click each cell to toggle it on/off or use the preset inputs below.
+        </p>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ const InfoPanel: React.FC = () => {
   return (
     <div className="mt-8 bg-gray-800 p-4 rounded-md shadow-lg">
       <h2 className="text-xl font-mono uppercase tracking-wider border-b border-gray-700 pb-2">
-        Perceptron Explained
+        This is a Perceptron
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
@@ -73,6 +73,22 @@ const InfoPanel: React.FC = () => {
           <li>Or click "TRAIN STEP" to automatically update weights</li>
           <li>When the output matches your target, try another pattern</li>
           <li>Goal: Train to recognize some letters, reject others</li>
+        </ol>
+      </div>
+
+      <div className="mt-4 bg-gray-900 p-3 rounded">
+        <h3 className="font-mono text-green-500">Relevant Links</h3>
+        <ol className="list-decimal list-inside text-sm text-gray-300 mt-1 ml-2 space-y-1">
+          <li>
+            <a
+              href="https://youtu.be/l-9ALe3U-Fg?si=I1skChiEBK7SR0Qv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              ChatGPT is made from 100 million of these [The Perceptron]
+            </a>
+          </li>
         </ol>
       </div>
     </div>

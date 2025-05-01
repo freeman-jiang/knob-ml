@@ -43,7 +43,7 @@ const WeightPanel: React.FC<WeightPanelProps> = ({
             />
             <div
               className={`w-2 h-2 rounded-full mt-1 ${
-                inputs[index] ? "bg-green-500" : "bg-gray-600"
+                inputs[index] === 1 ? "bg-green-500" : "bg-gray-600"
               }`}
             />
           </div>

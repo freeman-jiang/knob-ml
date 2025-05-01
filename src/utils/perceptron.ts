@@ -33,6 +33,7 @@ export const updateWeights = (
   const error = target - output;
 
   // Update each weight: w_i += learning_rate * error * input_i
+  // With bipolar inputs, ALL weights get updated (not just those with input=1)
   const newWeights = weights.map((weight, i) => {
     return weight + learningRate * error * inputs[i];
   });
@@ -48,4 +49,9 @@ export const initializeWeights = (size: number): number[] => {
   return Array(size)
     .fill(0)
     .map(() => Math.random() * 2 - 1);
+};
+
+// Convert binary pattern (0,1) to bipolar (-1,1) if needed
+export const toBipolar = (pattern: number[]): number[] => {
+  return pattern.map((val) => (val === 0 ? -1 : 1));
 };

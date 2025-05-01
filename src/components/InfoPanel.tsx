@@ -12,11 +12,9 @@ const InfoPanel: React.FC = () => {
           <h3 className="font-mono text-green-500">Manual Training</h3>
           <ul className="space-y-1 text-sm text-gray-300 mt-2">
             <li>• If correct (output matches target): do nothing</li>
-            <li>• If target=1 but output=0: increase weights for lit pixels</li>
-            <li>• If target=0 but output=1: decrease weights for lit pixels</li>
-            <li>
-              • Adjust bias the same way (up if target=1, down if target=0)
-            </li>
+            <li>• For lit pixels (+1): increase weights when target=1</li>
+            <li>• For off pixels (-1): decrease weights when target=1</li>
+            <li>• Reverse adjustments when target=0</li>
           </ul>
         </div>
 
@@ -24,11 +22,22 @@ const InfoPanel: React.FC = () => {
           <h3 className="font-mono text-green-500">Auto Training</h3>
           <ul className="space-y-1 text-sm text-gray-300 mt-2">
             <li>• "TRAIN STEP" applies Rosenblatt's algorithm</li>
-            <li>• Weights auto-adjust based on error</li>
-            <li>• Formula: w_new = w_old + (target - output) × input</li>
-            <li>• Green/red halos suggest which knobs to adjust</li>
+            <li>• Using bipolar inputs (-1, +1) for all pixels</li>
+            <li>• Formula: Δw = (target - output) × input</li>
+            <li>• All weights update (not just lit pixels)</li>
           </ul>
         </div>
+      </div>
+
+      <div className="mt-4 bg-gray-900 p-3 rounded">
+        <h3 className="font-mono text-green-500">Bipolar Inputs</h3>
+        <p className="text-sm text-gray-300 mt-1">
+          This perceptron uses bipolar inputs: lit pixels are +1, off pixels are
+          -1. This means <strong>all</strong> pixels actively contribute to
+          learning. When target=1 and output=0, weights increase for lit pixels
+          (+1) and decrease for off pixels (-1). This creates clearer decision
+          boundaries.
+        </p>
       </div>
 
       <div className="mt-4 bg-gray-900 p-3 rounded">

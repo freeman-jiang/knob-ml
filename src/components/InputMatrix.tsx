@@ -13,7 +13,7 @@ const InputMatrix: React.FC<InputMatrixProps> = ({ inputs, toggleInput }) => {
           <button
             key={index}
             className={`size-[4.35rem] rounded-sm transition-all transform ${
-              input ? "bg-green-500 shadow-lg scale-105" : "bg-gray-700"
+              input === 1 ? "bg-green-500 shadow-lg scale-105" : "bg-gray-700"
             }`}
             onClick={() => toggleInput(index)}
             aria-label={`Toggle pixel ${index}`}

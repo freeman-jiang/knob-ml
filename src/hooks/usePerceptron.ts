@@ -4,6 +4,7 @@ import { letterPatterns } from "../utils/letterPatterns";
 import {
   applyActivation,
   calculateNet,
+  toBipolar,
   updateWeights,
 } from "../utils/perceptron";
 
@@ -12,7 +13,7 @@ const INPUT_COUNT = MATRIX_SIZE * MATRIX_SIZE;
 
 const usePerceptron = () => {
   const [state, setState] = useState<PerceptronState>({
-    inputs: Array(INPUT_COUNT).fill(0),
+    inputs: Array(INPUT_COUNT).fill(-1),
     weights: Array(INPUT_COUNT).fill(0),
     bias: 0,
     net: 0,
@@ -26,7 +27,7 @@ const usePerceptron = () => {
   const initializePerceptron = useCallback(() => {
     setState((prev) => ({
       ...prev,
-      inputs: Array(INPUT_COUNT).fill(0),
+      inputs: Array(INPUT_COUNT).fill(-1),
       weights: Array(INPUT_COUNT).fill(0),
       bias: 0,
       net: 0,
@@ -73,11 +74,11 @@ const usePerceptron = () => {
     });
   }, []);
 
-  // Toggle pixel in the input matrix
+  // Toggle pixel in the input matrix (toggle between -1 and 1)
   const toggleInput = useCallback((index: number) => {
     setState((prev) => {
       const newInputs = [...prev.inputs];
-      newInputs[index] = newInputs[index] === 0 ? 1 : 0;
+      newInputs[index] = newInputs[index] === -1 ? 1 : -1;
 
       // Recalculate net and output
       const newNet = calculateNet(newInputs, prev.weights, prev.bias);
@@ -88,7 +89,7 @@ const usePerceptron = () => {
         inputs: newInputs,
         net: newNet,
         output: newOutput,
-        currentLetter: null, // Clear current letter when manually editing
+        currentLetter: null,
       };
     });
   }, []);
@@ -106,7 +107,7 @@ const usePerceptron = () => {
     if (!letterPatterns[letter]) return;
 
     setState((prev) => {
-      const newInputs = [...letterPatterns[letter]];
+      const newInputs = toBipolar([...letterPatterns[letter]]);
 
       // Recalculate net and output
       const newNet = calculateNet(newInputs, prev.weights, prev.bias);
@@ -175,10 +176,15 @@ const usePerceptron = () => {
       // Don't suggest changes if target equals output
       if (state.target === state.output) return "correct";
 
-      // Only adjust weights for active inputs
-      if (input === 0) return "correct";
-
-      return state.target > state.output ? "increase" : "decrease";
+      // For bipolar inputs, both +1 and -1 contribute to learning
+      // For +1 inputs, increase weights if target > output, decrease if target < output
+      // For -1 inputs, do the opposite (decrease if target > output, increase if target < output)
+      if (input === 1) {
+        return state.target > state.output ? "increase" : "decrease";
+      } else {
+        // input === -1
+        return state.target > state.output ? "decrease" : "increase";
+      }
     });
   }, [state.weights, state.inputs, state.target, state.output]);
 

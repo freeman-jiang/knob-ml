@@ -44,6 +44,8 @@ const usePerceptron = () => {
       currentLetter: null,
       training: false,
     }));
+    // Hide hints when perceptron is initialized
+    setShowHints(false);
   }, []);
 
   // Update weights manually
@@ -101,6 +103,8 @@ const usePerceptron = () => {
         currentLetter: null,
       };
     });
+    // Hide hints when input is modified
+    setShowHints(false);
   }, []);
 
   // Set target (expected output)
@@ -109,6 +113,8 @@ const usePerceptron = () => {
       ...prev,
       target,
     }));
+    // Hide hints when target is changed
+    setShowHints(false);
   }, []);
 
   // Set a preset letter pattern
@@ -130,6 +136,8 @@ const usePerceptron = () => {
         currentLetter: letter,
       };
     });
+    // Hide hints when a preset letter is selected
+    setShowHints(false);
   }, []);
 
   // Reset weights and bias to zero
@@ -150,6 +158,8 @@ const usePerceptron = () => {
         output: newOutput,
       };
     });
+    // Hide hints when weights are reset
+    setShowHints(false);
   }, []);
 
   // Perform one step of perceptron training
@@ -175,6 +185,8 @@ const usePerceptron = () => {
         output: newOutput,
       };
     });
+    // Hide hints after training
+    setShowHints(false);
   }, []);
 
   // Calculate weight adjustment hints based directly on target value

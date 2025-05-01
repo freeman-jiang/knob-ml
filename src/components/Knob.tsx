@@ -38,18 +38,6 @@ const Knob: React.FC<KnobProps> = ({
     return -135 + percentage * 270;
   };
 
-  // Get the color for the hint
-  const getHintColor = () => {
-    switch (hint) {
-      case "increase":
-        return "";
-      case "decrease":
-        return "";
-      default:
-        return "";
-    }
-  };
-
   // Handle mouse/touch down
   const handleDragStart = (clientY: number) => {
     if (disabled) return;
@@ -122,7 +110,7 @@ const Knob: React.FC<KnobProps> = ({
           activeInput ? "border-green-500" : "border-gray-700",
           isDragging && "cursor-grabbing",
           disabled && "opacity-50 cursor-not-allowed",
-          hint !== "correct" && `ring-2 ${getHintColor()}`,
+          // hint !== "correct" && `${getHintColor()}`,
           activeInput && "glow-green-500"
         )}
         style={{

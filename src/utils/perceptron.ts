@@ -20,7 +20,7 @@ export const applyActivation = (net: number): 0 | 1 => {
 // Update weights using the perceptron learning rule
 export const updateWeights = (
   state: PerceptronState,
-  learningRate: number = 0.01
+  learningRate: number = 0.05
 ): [number[], number] => {
   const { inputs, weights, bias, target, output } = state;
 

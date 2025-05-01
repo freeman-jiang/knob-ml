@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { letterPatterns } from "../utils/letterPatterns";
 
 interface ControlBarProps {
   onClear: () => void;
@@ -16,14 +17,13 @@ const ControlBar: React.FC<ControlBarProps> = ({
   onReset,
   onLetterSelect,
   onToggleTraining,
-  training,
   onSetTarget,
   target,
   currentLetter,
 }) => {
   // Create alphabet buttons
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  
+  const letters = Object.keys(letterPatterns);
+
   return (
     <div className="bg-gray-800 p-4 rounded-md shadow-lg">
       <div className="flex flex-col space-y-4">
@@ -48,7 +48,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             TRAIN STEP
           </button>
         </div>
-        
+
         {/* Target setting */}
         <div className="flex items-center space-x-2">
           <span className="font-mono text-white">TARGET:</span>
@@ -56,8 +56,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
             <button
               className={`px-3 py-1 font-mono ${
                 target === 0
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? "bg-red-600 text-white"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
               }`}
               onClick={() => onSetTarget(0)}
             >
@@ -66,8 +66,8 @@ const ControlBar: React.FC<ControlBarProps> = ({
             <button
               className={`px-3 py-1 font-mono ${
                 target === 1
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
               }`}
               onClick={() => onSetTarget(1)}
             >
@@ -75,7 +75,7 @@ const ControlBar: React.FC<ControlBarProps> = ({
             </button>
           </div>
         </div>
-        
+
         {/* Alphabet selector */}
         <div className="mt-2">
           <div className="font-mono text-white mb-1">LETTER PRESETS:</div>
@@ -83,10 +83,10 @@ const ControlBar: React.FC<ControlBarProps> = ({
             {letters.map((letter) => (
               <button
                 key={letter}
-                className={`w-8 h-8 font-mono rounded ${
+                className={`font-mono rounded ${
                   currentLetter === letter
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-700 text-white hover:bg-gray-600"
                 }`}
                 onClick={() => onLetterSelect(letter)}
               >

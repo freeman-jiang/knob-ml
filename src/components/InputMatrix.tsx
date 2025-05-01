@@ -7,16 +7,13 @@ interface InputMatrixProps {
 
 const InputMatrix: React.FC<InputMatrixProps> = ({ inputs, toggleInput }) => {
   return (
-    <div className="w-96">
-      <h2 className="text-xl font-mono mb-2 uppercase tracking-wider self-center">
-        Input Matrix
-      </h2>
-      <div className="grid grid-cols-5 gap-2 bg-gray-900 p-4 rounded-md shadow-inner self-center">
+    <div className="bg-gray-800 p-4 py-6 rounded-md shadow-lg self-center w-96 h-full">
+      <div className="flex flex-wrap gap-2 rounded-md shadow-inner justify-center">
         {inputs.map((input, index) => (
           <button
             key={index}
-            className={`w-16 h-16 rounded-sm transition-all transform ${
-              input ? "bg-green-500 shadow-lg scale-105" : "bg-gray-800"
+            className={`size-[4.35rem] rounded-sm transition-all transform ${
+              input ? "bg-green-500 shadow-lg scale-105" : "bg-gray-700"
             }`}
             onClick={() => toggleInput(index)}
             aria-label={`Toggle pixel ${index}`}

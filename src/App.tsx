@@ -27,21 +27,27 @@ function App() {
             Hand-Trained Perceptron Letter Recognizer
           </h1>
           <p className="text-center text-gray-400 mt-2 font-mono">
-            A single-layer perceptron for binary classification of 5×5 pixel
+            A single-layer perceptron for binary classification of 4×4 pixel
             patterns
           </p>
         </div>
       </header>
 
       <main className="w-full px-4 py-8">
-        <div className="flex flex-row flex-wrap justify-center gap-12">
+        <div className="flex flex-wrap flex-row gap-6 w-full justify-center items-stretch">
           {/* Left column: Input Matrix */}
-          <div className="">
+          <div className="flex flex-col">
+            <h2 className="text-xl font-mono mb-4 uppercase tracking-wider text-center">
+              Input Matrix
+            </h2>
             <InputMatrix inputs={state.inputs} toggleInput={toggleInput} />
           </div>
 
           {/* Middle column: Weight Panel */}
-          <div className="">
+          <div className="flex flex-col">
+            <h2 className="text-xl font-mono mb-4 uppercase tracking-wider text-center">
+              Weight Panel
+            </h2>
             <WeightPanel
               weights={state.weights}
               bias={state.bias}
@@ -51,11 +57,14 @@ function App() {
               weightHints={getWeightHints()}
               biasHint={getBiasHint()}
               training={state.training}
-            />
+            />{" "}
           </div>
 
           {/* Right column: Output Gauge */}
-          <div className="">
+          <div className="flex flex-col">
+            <h2 className="text-xl font-mono mb-4 uppercase tracking-wider text-center">
+              Input Matrix
+            </h2>
             <OutputGauge net={state.net} output={state.output} />
           </div>
         </div>

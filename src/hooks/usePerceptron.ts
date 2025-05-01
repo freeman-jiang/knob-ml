@@ -7,7 +7,7 @@ import {
   updateWeights,
 } from "../utils/perceptron";
 
-const MATRIX_SIZE = 5;
+const MATRIX_SIZE = 4;
 const INPUT_COUNT = MATRIX_SIZE * MATRIX_SIZE;
 
 const usePerceptron = () => {

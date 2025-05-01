@@ -4,62 +4,76 @@ const InfoPanel: React.FC = () => {
   return (
     <div className="mt-8 bg-gray-800 p-4 rounded-md shadow-lg">
       <h2 className="text-xl font-mono uppercase tracking-wider border-b border-gray-700 pb-2">
-        How It Works
+        Perceptron Explained
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
         <div className="bg-gray-900 p-3 rounded">
-          <h3 className="font-mono text-green-500">Manual Training</h3>
+          <h3 className="font-mono text-green-500">Input & Output</h3>
           <ul className="space-y-1 text-sm text-gray-300 mt-2">
-            <li>• If correct (output matches target): do nothing</li>
-            <li>• For lit pixels (+1): increase weights when target=1</li>
-            <li>• For off pixels (-1): decrease weights when target=1</li>
-            <li>• Reverse adjustments when target=0</li>
+            <li>
+              • <strong>Inputs:</strong> 16 pixels (4×4 grid)
+            </li>
+            <li>
+              • Each input is <span className="text-green-400">+1</span> (lit)
+              or <span className="text-red-400">-1</span> (unlit)
+            </li>
+            <li>
+              • <strong>Output:</strong> binary classification (0 or 1)
+            </li>
+            <li>
+              • <strong>Target:</strong> your desired output (YES=1, NO=0)
+            </li>
           </ul>
         </div>
 
         <div className="bg-gray-900 p-3 rounded">
-          <h3 className="font-mono text-green-500">Auto Training</h3>
+          <h3 className="font-mono text-green-500">Calculation</h3>
           <ul className="space-y-1 text-sm text-gray-300 mt-2">
-            <li>• "TRAIN STEP" applies Rosenblatt's algorithm</li>
-            <li>• Using bipolar inputs (-1, +1) for all pixels</li>
-            <li>• Formula: Δw = (target - output) × input</li>
-            <li>• All weights update (not just lit pixels)</li>
+            <li>
+              • <strong>Output:</strong> sum(input<sub>i</sub> × weight
+              <sub>i</sub>) + bias
+            </li>
+            <li>
+              • <strong>Activation:</strong> output = 1 if net {">"} 0, else 0
+            </li>
           </ul>
         </div>
       </div>
 
       <div className="mt-4 bg-gray-900 p-3 rounded">
-        <h3 className="font-mono text-green-500">Bipolar Inputs</h3>
+        <h3 className="font-mono text-green-500">Training Algorithm</h3>
         <p className="text-sm text-gray-300 mt-1">
-          This perceptron uses bipolar inputs: lit pixels are +1, off pixels are
-          -1. This means <strong>all</strong> pixels actively contribute to
-          learning. When target=1 and output=0, weights increase for lit pixels
-          (+1) and decrease for off pixels (-1). This creates clearer decision
-          boundaries.
+          The perceptron's weights update according to Rosenblatt's rule:
         </p>
+        <div className="my-2 px-3 py-2 bg-gray-800 rounded font-mono text-sm text-yellow-400">
+          Δw<sub>i</sub> = (target - output) × input<sub>i</sub>
+        </div>
+        <ul className="space-y-1 text-sm text-gray-300">
+          <li>• If output matches target: no change</li>
+          <li>
+            • For target=1, output=0: increase weights for lit pixels (+1),
+            decrease for unlit (-1)
+          </li>
+          <li>
+            • For target=0, output=1: decrease weights for lit pixels (+1),
+            increase for unlit (-1)
+          </li>
+          <li>• Bias is updated similarly: Δbias = (target - output)</li>
+        </ul>
       </div>
 
       <div className="mt-4 bg-gray-900 p-3 rounded">
-        <h3 className="font-mono text-green-500">Cases</h3>
-        <div className="flex flex-wrap justify-between text-sm text-gray-300 mt-1">
-          <div className="w-1/2 pb-1">
-            <span className="text-yellow-500">Case 1:</span> Target=1, Output=0
-            → Increase weights
-          </div>
-          <div className="w-1/2 pb-1">
-            <span className="text-yellow-500">Case 2:</span> Target=0, Output=1
-            → Decrease weights
-          </div>
-          <div className="w-1/2">
-            <span className="text-yellow-500">Case 3:</span> Target=0, Output=0
-            → No change
-          </div>
-          <div className="w-1/2">
-            <span className="text-yellow-500">Case 4:</span> Target=1, Output=1
-            → No change
-          </div>
-        </div>
+        <h3 className="font-mono text-green-500">How to Train</h3>
+        <ol className="list-decimal list-inside text-sm text-gray-300 mt-1 ml-2 space-y-1">
+          <li>Choose a letter pattern or draw your own</li>
+          <li>Set target (YES=1 or NO=0)</li>
+          <li>Click "SHOW HINTS" to see which way to turn knobs</li>
+          <li>Adjust weights following the hint arrows</li>
+          <li>Or click "TRAIN STEP" to automatically update weights</li>
+          <li>When the output matches your target, try another pattern</li>
+          <li>Goal: Train to recognize some letters, reject others</li>
+        </ol>
       </div>
     </div>
   );
